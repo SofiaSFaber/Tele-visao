@@ -33,20 +33,6 @@ export default function Login({navigation}){
     setUser(currentUser);
   })
 
-  const register = async () => {
-    try{
-      const user = await createUserWithEmailAndPassword(
-        auth, 
-        loginEmail, 
-        loginPassword
-      );
-      console.log(user)
-    } catch (error){
-      console.log(error.message);
-    }
-    
-  };
-
   const login = async () => {
     try{
       const user = await signInWithEmailAndPassword(
@@ -84,6 +70,10 @@ export default function Login({navigation}){
     }
   }
 
+  const signUp = async () => {
+    navigation.navigate('Cadastro_Perfil')
+  }
+
   const logout = async () => {
     await signOut(auth);
   }
@@ -99,6 +89,13 @@ export default function Login({navigation}){
             <Text style={loginStyle.textLogin}>Senha</Text>
           </View>
           <TextInput secureTextEntry={true} style={loginStyle.fieldLogin} placeholder="Digite sua senha" type="password" ref={passwordRef} onChange={(event) => {setLoginPassword(event.target.value)}}/>
+          <Text style={loginStyle}>
+            Não tem uma conta?{' '} 
+            <Text style={loginStyle.link} onPress={signUp}>
+              Cadastre-se
+            </Text>
+          </Text>
+         
           <View style={loginStyle.containerCentralize}>
             <Pressable style={loginStyle.buttonLogin} type="submit" disabled={loading} onPress={login}>
               <Text style={loginStyle.titleButton}>Entrar</Text>
