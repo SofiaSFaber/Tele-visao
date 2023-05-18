@@ -13,18 +13,21 @@ class LocalInfo {
     }
 }
 
+
 async function addLocalInfo(localInfo) {
     await addDoc(collection(db, 'local'), {
         'nome_local': localInfo.nome_local,
         'administrador': localInfo.administrador
     });
+    console.log(localInfo.administrador);
 
     return;
 }
 
-export default function Cadastra_Local() {
+export default function Cadastra_Local({route, navigation}) {
+    const { users } = route.params;
     const [nome_local, set_nome_local] = useState('');
-    const [administrador] = useState('aaaa');
+    const [administrador] = useState('');
 
     const addInfo = async (localInfo) => {
         await addLocalInfo(localInfo);
@@ -49,7 +52,7 @@ export default function Cadastra_Local() {
                 style={styles.field}
                 placeholder="Digite aqui o nome do local" />
             <Pressable
-                onPress={() => uploadLocal(new LocalInfo(nome_local, administrador))}
+                onPress={() => uploadLocal(new LocalInfo(nome_local, users[0]['dados']['nome']))}
                 style={styles.button}>
                 <Text style={styles.text}>Cadastrar</Text>
             </Pressable>
